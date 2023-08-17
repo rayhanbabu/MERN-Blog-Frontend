@@ -1,1 +1,14 @@
+ live forntend link
+ https://ancovablog.netlify.app/
+    login information 
+        email:  rayhan@gmail.com
+        password:  123456
+
+  live backend Link
+  https://ancovablog.vercel.app/
+
+  Forntend link github link 
+  https://github.com/rayhanbabu/MERN-Blog-Frontend/
+
+  Backend link github link 
 
