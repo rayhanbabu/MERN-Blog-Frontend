@@ -7,9 +7,12 @@ import Header from "../component/Header";
 
 
 
+
+
 function BlogShow() {
       const [data,setData]=useState([]);
        const [id,setId]=useState(0);
+       let loginInfo=JSON.parse(localStorage.getItem("loginInfo"))
 
        useEffect(()=>{
         (async ()=>{
@@ -21,7 +24,12 @@ function BlogShow() {
 
         const onDelete = async (id) => {
           let URL="https://ancovablog.vercel.app/DeleteBlog/"+id;
-          await axios.get(URL)
+          await axios.get(URL,
+            {
+              headers:{
+                token:loginInfo['token']
+              }
+            })
           setId(id);
           toast.success("Deelete Successfull !",{
             position: toast.POSITION.TOP_CENTER,
@@ -30,15 +38,21 @@ function BlogShow() {
           } );
         }
 
+         console.log(data.length);
+
+        
  
     return (
         <div>
           <Header></Header>
            <ToastContainer />
+           
+            
    <div className="container mt-4 ">
        <div className="row ">
 
        {
+               
                  data.map((item,index)=>{
                       return(
      <div className="col-sm-3 p-3" key={index}>
@@ -51,8 +65,14 @@ function BlogShow() {
             <p className="card-text"><small className="text-body-secondary">{formatDate(item['createdAt'])}</small></p>
             <p className="text-center"> <NavLink to={"/blog-details/"+item['_id']} className="btn btn-primary me-2"> Show Details </NavLink> </p>
             <div className="card-body text-center">
-              <NavLink to={"/UpdateBlog/"+item['_id']} className="btn btn-success me-2 btn-sm">Edit</NavLink>
-               <button onClick={async ()=>{await onDelete(item['_id'])}} className="btn btn-danger btn-sm">Delete</button>
+
+
+            {loginInfo && <div>
+                    <NavLink to={"/UpdateBlog/"+item['_id']} className="btn btn-success me-2 btn-sm">Edit</NavLink>
+                   <button onClick={async ()=>{await onDelete(item['_id'])}} className="btn btn-danger btn-sm">Delete</button>
+               </div>}
+               
+
             </div>
          </div>
         </div>

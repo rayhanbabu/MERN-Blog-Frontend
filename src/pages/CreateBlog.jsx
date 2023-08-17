@@ -11,6 +11,7 @@ function CreateBlog() {
     let [FormValue,SetFormValue]= useState({title:"",author:"",content:""});
     let navigate = useNavigate();
     let [isSubmit,setIsSubmit]=useState(false);
+    let loginInfo=JSON.parse(localStorage.getItem("loginInfo"))
 
    
       const InputOnChange = (property,value) => {
@@ -33,7 +34,12 @@ function CreateBlog() {
             let URL="https://ancovablog.vercel.app/CreateBlog";
             
         
-         let res = await axios.post(URL,FormValue);
+         let res = await axios.post(URL,FormValue,
+               {
+                headers:{
+                    token:loginInfo['token']
+                 }
+               });
               if(res){
                 Swal.fire({
                     title: 'Added!',
@@ -80,15 +86,15 @@ function CreateBlog() {
                     <input type="text" {...register("content", { required: true })} 
                      value={FormValue.content} onChange={(e)=>{InputOnChange('content',e.target.value)}} className="form-control" />
                      <p className='text-danger'>
-                        <error>
+                          <error>
                             {errors.content?.type === "required" && "Content is required"}
-                        </error>
+                          </error>
                       </p> 
                 </div>
 
                         
                          <br></br>
-                        <button className="btn btn-success m-2">{isSubmit?'Save Changeing':'Save Change'}</button>
+                        <button className="btn btn-success m-2">{isSubmit?'Save Changeing...':'Save Change'}</button>
                     </form>
                 </div>
 

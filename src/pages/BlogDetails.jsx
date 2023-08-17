@@ -4,19 +4,19 @@ import axios from "axios";
 import formatDate from "../component/FormatDate";
 import Header from "../component/Header";
 
+
 function BlogDetails(){
 
     const [data,setData]=useState([]);
     let {id} = useParams();
 
     useEffect(()=>{
-     (async ()=>{
+      (async ()=>{
           const res=await axios.get("https://ancovablog.vercel.app/SingleReadBlog/"+id)
              setData(res.data['data']);
             })()
     },[id]);
 
-    console.log(data);
     return (
         <div>   
             <Header></Header>

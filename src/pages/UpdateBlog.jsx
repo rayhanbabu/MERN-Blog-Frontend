@@ -12,6 +12,7 @@ function UpdateBlog() {
     let {id} = useParams();
     let navigate = useNavigate();
     let [isSubmit,setIsSubmit]=useState(false);
+    let loginInfo=JSON.parse(localStorage.getItem("loginInfo"))
    
     
       const {
@@ -26,7 +27,8 @@ function UpdateBlog() {
                     
             const fetchBlog = async () => {
                 try {
-                  const response = await axios.get("https://ancovablog.vercel.app/SingleReadBlog/"+id);
+                  const response = await axios.get("https://ancovablog.vercel.app/SingleReadBlog/"+id
+                  );
                   const { title, author, content } = response.data['data'];
                   setValue("title", title);
                   setValue("author", author);
@@ -45,7 +47,12 @@ function UpdateBlog() {
        const onSubmit = async (data) =>{
                  setIsSubmit(true);
             let URL="https://ancovablog.vercel.app/UpdateBlog/"+id;
-         let res = await axios.post(URL,data);
+            let res = await axios.post(URL,data,
+              {
+             headers:{
+                 token:loginInfo['token']
+              }
+            });
               if(res){
                 Swal.fire({
                     title: 'Update!',
